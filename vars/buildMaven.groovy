@@ -1,6 +1,6 @@
 def call(Map config = [:]){
     
-     var skipTest = '';
+    def skipTest = '';
     if(config.skipTest == true){
         skipTest = '-DskipTests=true';
     }
