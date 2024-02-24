@@ -1,7 +1,11 @@
 def call(Map config = [:]){
-    sh "pwd"
-    sh "cd target"
-    sh "pwd"
     loadLinuxScript(name: 'deployForSupervisor.sh')
-    sh "./deployForSupervisor.sh ${config.project} ${config.basePath}"
+    if(config.tool == 'maven'){
+        sh """
+            mv deployForSupervisor.sh target/deployForSupervisor.sh
+            cd target
+            pwd
+            ./deployForSupervisor.sh ${config.project} ${config.basePath}
+        """
+    }
 }
