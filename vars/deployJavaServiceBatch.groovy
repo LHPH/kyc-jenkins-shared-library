@@ -28,9 +28,9 @@ def call(Map config = [:]){
                 }
             }
 
-            stage('Deploy for Supervisor'){
+            stage('Deploy for Batch'){
                 steps{
-                    deployForSupervisor(basePath: "/opt/kyc/apps",project: "${config.project}");
+                    deployForBatch(basePath: "/opt/kyc/apps",project: "${config.project}");
                 }
             }
         }
