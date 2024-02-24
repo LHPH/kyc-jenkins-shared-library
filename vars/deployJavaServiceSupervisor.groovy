@@ -24,7 +24,13 @@ def call(Map config = [:]){
             
             stage('Build and Install'){
                 steps {
-                    buildMaven(install: true, skipTest: false);
+                    buildMaven(install: false, skipTest: false);
+                }
+            }
+
+            stage('Deploy'){
+                steps{
+                    deployWithSupervisor(basePath: "/opt/kyc/apps",project: "${config.project}");
                 }
             }
         }
