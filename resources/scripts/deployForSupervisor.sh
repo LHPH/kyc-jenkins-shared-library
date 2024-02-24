@@ -1,7 +1,7 @@
 #!/bin/bash
 component=$1.jar
 base_path=$2
-
+pwd
 if test -f component; then
   echo "Moving $component to tmp"
   mv *.jar /tmp/$component
