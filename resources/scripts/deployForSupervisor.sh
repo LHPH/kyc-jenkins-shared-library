@@ -3,7 +3,7 @@ component=$1.jar
 base_path=$2
 pwd
 file=$(find . -type f -name "$1*.jar")
-if [ -n "$file" ] then
+if [ -n "$file" ]; then
   echo "Moving $component to tmp"
   mv *.jar /tmp/$component
   echo "Go to tmp"
