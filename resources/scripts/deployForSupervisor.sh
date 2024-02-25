@@ -9,9 +9,9 @@ if [ -n "$file" ]; then
   echo "Go to tmp"
   cd /tmp
   echo "Change owner for $component"
-  chown kyc_user:execution $component
+  sudo chown kyc_user:execution $component
   echo "Change rights for $component"
-  chmod 750 $component
+  sudo chmod 750 $component
   echo "Moving $1 to path"
   mv $component $base_path/$1/$component
   echo "Stoping supervisor for $1"
