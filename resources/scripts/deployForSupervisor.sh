@@ -13,7 +13,7 @@ if [ -n "$file" ]; then
   echo "Change rights for $component"
   sudo chmod 750 $component
   echo "Moving $1 to path"
-  mv $component $base_path/$1/$component
+  sudo mv $component $base_path/$1/$component
   echo "Stoping supervisor for $1"
   supervisorctl stop $1
   echo "Starting supervisor for $1"
