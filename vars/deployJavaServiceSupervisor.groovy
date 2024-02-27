@@ -30,7 +30,7 @@ def call(Map config = [:]){
 
             stage('Deploy for Supervisor'){
                 steps{
-                    deployForSupervisor(basePath: "/opt/kyc/apps",project: "${config.project}",tool: 'maven');
+                    deployForSupervisor(basePath: "/opt/kyc/apps",project: "${config.project}");
                 }
             }
         }
