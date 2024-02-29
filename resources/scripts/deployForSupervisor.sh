@@ -3,10 +3,10 @@ set -e
 component=$1.jar
 base_path=$2
 pwd
-if [ -e pom.xml ] then;
+if [ -e pom.xml ]; then
   echo "The $1 is a maven project"
   cd target
-elif [ -e build.gradle ] then;
+elif [ -e build.gradle ]; then
   echo "The $1 is a gradle project"
   cd libs
 else
