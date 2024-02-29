@@ -33,7 +33,7 @@ if [ -n "$file" ]; then
   sleep 8
   status=$(supervisorctl status $1 2>&1)
   echo "The status is $status"
-  if [ $status == *RUNNING* ]; then
+  if [[ $status == *RUNNING* ]]; then
     echo "Finish deploy for $1"
   else
     echo "It could not deploy $1"
