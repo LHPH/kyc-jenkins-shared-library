@@ -24,7 +24,7 @@ def call(Map config = [:]){
             
             stage('Build'){
                 steps {
-                    buildMaven(install: false, skipTest: false);
+                    buildJava(install: false, skipTest: false,tool: "${config.tool}");
                 }
             }
 

@@ -8,7 +8,7 @@ if [ -e pom.xml ]; then
   cd target
 elif [ -e build.gradle ]; then
   echo "The $1 is a gradle project"
-  cd libs
+  cd build/libs
 else
  echo "$1 is unsupported build type"
   exit 1;
@@ -26,12 +26,12 @@ if [ -n "$file" ]; then
   echo "Moving $1 to path"
   sudo mv $component $base_path/$1/$component
   echo "Stoping supervisor for $1"
-  supervisorctl stop $1
+  supervisorctl stop $1:*
   sleep 8
   echo "Starting supervisor for $1"
-  supervisorctl start $1
+  supervisorctl start $1:*
   sleep 8
-  status=$(supervisorctl status $1 2>&1)
+  status=$(supervisorctl status $1:* 2>&1)
   echo "The status is $status"
   if [[ $status == *RUNNING* ]]; then
     echo "Finish deploy for $1"
