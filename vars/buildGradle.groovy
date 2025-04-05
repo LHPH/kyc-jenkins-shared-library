@@ -5,5 +5,5 @@ def call(Map config = [:]){
         skipTest = '-x test -x jacocoTestCoverageVerification';
     }
 
-    sh "gradle clean build ${skipTest} --info --stacktrace".trim();
+    sh "$GRADLE_HOME/bin/gradle clean build ${skipTest} --info --stacktrace".trim();
 }
