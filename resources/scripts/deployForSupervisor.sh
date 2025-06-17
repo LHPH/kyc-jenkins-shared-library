@@ -2,7 +2,7 @@
 
 deployJavaProject(){
   
-  $project=$1
+  project=$1
   component=$1.jar
   base_path=$2
   file=$(find . -type f -name "$project*.jar")
@@ -72,7 +72,7 @@ deployNodeProject(){
 
 stopSupervisor(){
 
-  $project=$1
+  project=$1
   echo "Stoping supervisor for $project"
   supervisorctl stop $project:*
   sleep 8
@@ -80,7 +80,7 @@ stopSupervisor(){
 
 deploySupervisor(){
 
-  $project=$1
+  project=$1
   echo "Starting supervisor for $project"
   supervisorctl start $project:*
   sleep 8
@@ -95,8 +95,8 @@ deploySupervisor(){
 }
 
 set -e
-$project=$1
-$base_path=$2
+project=$1
+base_path=$2
 pwd
 if [ -e pom.xml ]; then
   echo "The $project is a maven project"
