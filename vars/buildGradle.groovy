@@ -6,7 +6,6 @@ def call(Map config = [:]){
     }
 
     sh """
-       echo \$GRADLE_HOME
        gradle -v
        node -v
     """
