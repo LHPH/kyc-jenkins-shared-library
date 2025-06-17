@@ -34,10 +34,10 @@ def call(Map config = [:]){
                 }
             }
         }
-        post { 
+        /*post { 
             always { 
                 deleteDir();
             }
-        }
+        }*/
     }
 }
