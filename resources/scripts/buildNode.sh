@@ -41,7 +41,7 @@ else
   fi
 
   echo 'Installing dependencies'
-  npm install --production --no-audit
+  npm install --no-audit
 
   mkdir -p ${CACHE_FOLDER}
   echo "Copy dependencies to cache folder in ${CACHE_FOLDER}"
