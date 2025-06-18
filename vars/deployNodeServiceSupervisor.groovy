@@ -6,8 +6,6 @@ def call(Map config = [:]){
         options{
             buildDiscarder(logRotator(numToKeepStr: '5', daysToKeepStr: '5'))
         }
-        environment{
-        }
         
         parameters{
             gitParameter branchFilter: 'origin.*/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'PT_BRANCH'
