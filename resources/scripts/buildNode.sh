@@ -1,15 +1,15 @@
 #!/bin/bash
 
-$cache=$1
-$service=$2
-$skip_test=$3
+cache=$1
+service=$2
+skip_test=$3
 
 set -e
 pwd
 
 MD5_SUM_PACKAGE_JSON=($(md5sum package.json))
 echo "MD5 package.json is ${MD5_SUM_PACKAGE_JSON}"
-CACHE_FOLDER=/var/jenkins/.cache/npm/${MD5_SUM_PACKAGE_JSON}
+CACHE_FOLDER=/var/cache/jenkins/npm/${MD5_SUM_PACKAGE_JSON}
 echo "Cache folder is ${CACHE_FOLDER}"
 
 
