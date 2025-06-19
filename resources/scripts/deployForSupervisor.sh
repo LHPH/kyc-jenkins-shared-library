@@ -61,7 +61,6 @@ deployNodeProject(){
     fi
    
     target_node_modules=$base_path/$component/node_modules
-    echo "$target_node_modules"
     if [ -d  "$target_node_modules" ]; then
 
       echo "Removing node_modules of $target_node_modules"
