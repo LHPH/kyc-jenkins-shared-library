@@ -34,9 +34,9 @@ deployNodeProject(){
   if [ -d dist ] && [ -d node_modules ]; then
 
     echo "Exists both directories"
-    mv dist /tmp/dist
+    mv dist /tmp/
     echo "Moved dist to tmp"
-    mv node_modules /tmp/node_modules
+    mv node_modules /tmp/
     echo "Moved node_modules to tmp"
     echo "Go to tmp"
     cd /tmp
