@@ -52,7 +52,7 @@ deployNodeProject(){
     echo "Change rights for node_modules of $component"
     sudo chmod -R 750 node_modules
 
-    target_dist = $base_path/$component/dist
+    target_dist=$base_path/$component/dist
     if [ -d "$target_dist" ]; then
 
       echo "Removing dist of $target_dist"
@@ -60,7 +60,7 @@ deployNodeProject(){
 
     fi
    
-    target_node_modules = $base_path/$component/node_modules
+    target_node_modules=$base_path/$component/node_modules
     echo "$target_node_modules"
     if [ -d  "$target_node_modules" ]; then
 
