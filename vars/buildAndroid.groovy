@@ -5,7 +5,6 @@ def call(Map config = [:]){
       buildType = 'Release'
    }
 
-    sh "pwd"
     sh "gradle -v"
     sh "gradle assemble${config.flavour}Version${buildType} --info --stacktrace".trim();
 }

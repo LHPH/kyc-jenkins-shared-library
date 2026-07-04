@@ -34,7 +34,7 @@ def call(Map config = [:]){
         }
         post { 
             always { 
-                deleteDir();
+               // deleteDir();
             }
         }
     }
