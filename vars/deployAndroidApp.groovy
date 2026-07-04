@@ -16,19 +16,21 @@ def call(Map config = [:]){
             
             stage('Git Checkout') {
                 steps {
-                    checkoutProject(project: "${config.project}", branch: "${params.BRANCH}", credentials: "${config.credentials}");
+                    checkoutProject(project: config.project, branch: "${params.BRANCH}", credentials: "${config.credentials}");
                 }
             }
             
             stage('Build'){
                 steps {
-                    buildAndroid(project: "${config.project}", flavour: params.FLAVOUR, branch: params.BRANCH);
+                    buildAndroid(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH);
                 }
             }
 
             stage('Deploy App Distribution'){
                 steps{
-                    deployForAppDistribution();
+                    withCredentials([file(credentialsId: config.firebaseCredentials,variable: 'GOOGLE_APPLICATION_CREDENTIALS')]){
+                        deployForAppDistribution();
+                    }
                 }
             }
         }
