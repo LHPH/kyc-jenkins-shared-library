@@ -11,7 +11,7 @@ def call(Map config = [:]){
     sh """
         FILE_PATH=\$(find ${buildApkPath} -maxdepth 1 -type f -name "${config.project}-*.apk")
         echo \$FILE_PATH
-        echo \$FIREBASE_JSON_KEY > app/firebase-key.json
+        echo \$FIREBASE_JSON_KEY > firebase-key.json
         export GOOGLE_APPLICATION_CREDENTIALS="firebase-key.json"
         ls -lta
         gradle appDistributionUpload${config.flavour}${buildType} -PfirebaseAppDistribution.apkPath="\$FILE_PATH" --info --stacktrace
