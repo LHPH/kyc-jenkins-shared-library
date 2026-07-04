@@ -28,7 +28,7 @@ def call(Map config = [:]){
 
             stage('Deploy App Distribution'){
                 steps{
-                    withCredentials([file(credentialsId: config.firebaseCredentials,variable: 'GOOGLE_APPLICATION_CREDENTIALS')]){
+                    withCredentials([file(credentialsId: config.firebaseCredentials,variable: 'FIREBASE_JSON_KEY')]){
                         deployForAppDistribution(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH);
                     }
                 }
