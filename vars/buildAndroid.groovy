@@ -1,6 +1,6 @@
 def call(Map config = [:]){
     
-   def flavourVersion = "${config.flavour}Version" 
+   def flavourVersion = "${config.flavour}" 
    def buildType = 'Debug'
    if(config.branch == 'master'){
       buildType = 'Release'
