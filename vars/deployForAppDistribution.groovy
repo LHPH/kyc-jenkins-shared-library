@@ -9,7 +9,8 @@ def call(Map config = [:]){
     def buildApkPath = "app/build/outputs/apk/${flavourVersion.uncapitalize()}/${buildType.toLowerCase()}/"
 
     sh """
-        echo \$(find ${buildApkPath} -maxdepth 1 -type f -name "${config.project}-*.apk")
+        FILE_PATH=\$(find ${buildApkPath} -maxdepth 1 -type f -name "${config.project}-*.apk")
+        echo \$FILE_PATH
+        gradle appDistributionUpload${config.flavour}${buildType} -PfirebaseAppDistribution.apkPath="\$FILE_PATH"
     """
-    //gradle appDistributionUpload${config.flavour}${buildType} -PfirebaseAppDistribution.apkPath="/path/to/your/RENAMED_APP.apk"
 }
