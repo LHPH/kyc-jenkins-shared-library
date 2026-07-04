@@ -7,5 +7,5 @@ def call(Map config = [:]){
 
     sh "pwd"
     sh "gradle -v"
-    sh "gradle assemble${config.flavour}${buildType} --info --stacktrace".trim();
+    sh "gradle assemble${config.flavour}Version${buildType} --info --stacktrace".trim();
 }
