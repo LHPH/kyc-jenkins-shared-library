@@ -17,6 +17,6 @@ def call(Map config = [:]){
             mv "\$file" "\${file%.apk}.${env.BUILD_NUMBER}.apk"
         done
         ls -lta
-        cd ${env.WORKSPACE}/KYC/${config.project}
+        cd ${env.WORKSPACE}
     """
 }
