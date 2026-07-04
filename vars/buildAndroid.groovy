@@ -11,7 +11,7 @@ def call(Map config = [:]){
     sh """
         cd app/build/outputs/apk/${flavourVersion.uncapitalize()}/${buildType.toLowerCase()}
         ls -lta
-        for file in app-*-${buildType.toLowerCase()}.apk; do 
+        for file in ${config.project}-*.apk; do 
             mv "\$file" "\${file%.apk}.${env.BUILD_NUMBER}.apk"
         done
         ls -lta

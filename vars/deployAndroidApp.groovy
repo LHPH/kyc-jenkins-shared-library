@@ -22,7 +22,7 @@ def call(Map config = [:]){
             
             stage('Build'){
                 steps {
-                    buildAndroid(flavour: params.FLAVOUR, branch: params.BRANCH);
+                    buildAndroid(project: "${config.project}", flavour: params.FLAVOUR, branch: params.BRANCH);
                 }
             }
 
