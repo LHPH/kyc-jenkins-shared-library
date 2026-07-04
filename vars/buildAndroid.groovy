@@ -10,8 +10,8 @@ def call(Map config = [:]){
     sh "gradle assemble${flavourVersion}${buildType} --info --stacktrace".trim();
     sh """
         cd app/build/outputs/apk/${flavourVersion}/${buildType.toLowerCase()}
-        for file in app-*-${buildType.toLowerCase()}; do 
-            mv "\$file" "\${file%.apk}-${BUILD_VERSION}.apk"
+        for file in app-*-${buildType.toLowerCase()}.apk; do 
+            mv "\$file" "\${file%.apk}.${env.BUILD_NUMBER}.apk"
         done
         ls -lta
     """
