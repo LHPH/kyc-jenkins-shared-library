@@ -10,6 +10,7 @@ def call(Map config = [:]){
         parameters{
             gitParameter branchFilter: 'origin.*/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'PT_BRANCH'
             choice(name: 'FLAVOUR', choices: ['Actual', 'Mock'])
+            choice(name: 'FORMAT', choices: ['apk', 'aab'])
         }
         
         stages {
@@ -22,22 +23,24 @@ def call(Map config = [:]){
             
             stage('Build'){
                 steps {
-                    buildAndroid(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH);
+                    withEnv(["JENKINS_BUILD_NUMBER=${env.BUILD_NUMBER}"]){
+                         buildAndroid(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);
+                    }
                 }
             }
 
             stage('Deploy App Distribution'){
                 steps{
                     withCredentials([file(credentialsId: config.firebaseCredentials,variable: 'GOOGLE_APPLICATION_CREDENTIALS')]){
-                        deployForAppDistribution(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH);
+                        deployForAppDistribution(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);
                     }
                 }
             }
         }
-       /* post { 
+        post { 
             always { 
                 deleteDir();
             }
-        }*/
+        }
     }
 }

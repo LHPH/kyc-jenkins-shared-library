@@ -1,22 +1,23 @@
 def call(Map config = [:]){
     
-   def flavourVersion = "${config.flavour}" 
-   def buildType = 'Debug'
-   if(config.branch == 'master'){
-      buildType = 'Release'
-   }
+    def flavourVersion = "${config.flavour}" 
+    def buildType = 'Debug'
+    def format = config.format.uncapitalize();
 
-    def buildApkPath = "app/build/outputs/apk/${flavourVersion.uncapitalize()}/${buildType.toLowerCase()}/"
+    if(config.branch == 'master'){
+        buildType = 'Release'
+    }
 
-    sh "gradle -v"
-    sh "gradle assemble${flavourVersion}${buildType} --info --stacktrace".trim();
+    def buildFormat = 'assemble';
+    if(format == 'aab'){
+        buildFormat = 'bundle';
+    }
+
+    def buildPath = "app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
     sh """
-        cd ${buildApkPath}
+        gradle -v
+        gradle ${buildFormat}${flavourVersion}${buildType} --info --stacktrace
+        cd ${buildPath}
         ls -lta
-        for file in ${config.project}-*.apk; do 
-            mv "\$file" "\${file%.apk}.${env.BUILD_NUMBER}.apk"
-        done
-        ls -lta
-        cd ${env.WORKSPACE}
     """
 }
