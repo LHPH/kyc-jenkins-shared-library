@@ -9,11 +9,12 @@ def call(Map config = [:]){
     }
 
     def buildFormat = 'assemble';
+    def buildPath = "app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
     if(format == 'aab'){
         buildFormat = 'bundle';
+        buildPath = "app/build/outputs/${buildFormat}/${flavourVersion.uncapitalize()}${buildType}/"
     }
 
-    def buildPath = "app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
     sh """
         gradle -v
         gradle ${buildFormat}${flavourVersion}${buildType} --info --stacktrace

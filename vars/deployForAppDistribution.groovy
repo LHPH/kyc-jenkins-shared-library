@@ -8,11 +8,13 @@ def call(Map config = [:]){
         buildType = 'Release'
     }
 
+    def buildPath = "${env.WORKSPACE}/app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
     if(format == 'aab'){
         buildFormat = 'bundle';
+        buildPath = "${env.WORKSPACE}/app/build/outputs/${buildFormat}/${flavourVersion.uncapitalize()}${buildType}/"
     }
 
-    def buildPath = "${env.WORKSPACE}/app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
+    
 
     sh """
         FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
