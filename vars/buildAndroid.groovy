@@ -32,7 +32,7 @@ def call(Map config = [:]){
                 FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
                 printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
 
-                ./${scriptName} \$FILE_PATH \FILE_PATH \$WORKSPACE/release-key.jks
+                ./${scriptName} \$FILE_PATH \$FILE_PATH \$WORKSPACE/release-key.jks
             """
 
             /*sh """
