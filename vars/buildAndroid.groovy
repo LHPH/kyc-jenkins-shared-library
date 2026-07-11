@@ -27,7 +27,7 @@ def call(Map config = [:]){
 
             FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
 
-            echo "'\$KEYSTORE_BASE64' | base64 -d > \$WORKSPACE/release-key.jks"
+            printf '%s' '\$KEYSTORE_BASE64' | base64 -d > \$WORKSPACE/release-key.jks
             ls -lta \$WORKSPACE/release-key.jks
 
             \$ANDROID_HOME/build-tools/35.0.0/apksigner sign \
