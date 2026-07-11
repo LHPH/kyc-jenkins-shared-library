@@ -31,7 +31,7 @@ def call(Map config = [:]){
             \$ANDROID_HOME/build-tools/35.0.0/apksigner sign \
             --ks \$WORKSPACE/release-key.jks \
             --ks-pass pass: ${KEYSTORE_PASSWORD} \
-            --ks-key-alias ${KEY_ALIAS} \
+            --ks-key-alias: ${KEY_ALIAS} \
             --key-pass pass: ${KEY_PASSWORD} \
             --out \$FILE_PATH \
             \$FILE_PATH
