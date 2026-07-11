@@ -20,7 +20,7 @@ def call(Map config = [:]){
     sh """
         FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
         ls -lta \$FILE_PATH
-        echo \$FILE_PATH
+        gradle appDistributionUpload${config.flavour}${buildType} --artifactPath="\$FILE_PATH" --artifactType="${format.toUpperCase()}" --info --stacktrace
     """
 
     /*sh """
