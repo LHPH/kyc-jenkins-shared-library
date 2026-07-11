@@ -24,15 +24,21 @@ def call(Map config = [:]){
             stage('Build'){
                 steps {
                     withEnv(["JENKINS_BUILD_NUMBER=${env.BUILD_NUMBER}"]){
-                         withCredentials([
-                            string(credentialsId: '440307a6-0399-45e3-9782-928731eb8932', variable: 'KEYSTORE_BASE64'),
-                            string(credentialsId: 'f24f173a-1c11-438a-8929-1f2611bf0875', variable: 'KEYSTORE_PASSWORD'),
-                            string(credentialsId: '9b5fc393-b883-4aad-ba05-ff255a81fc26', variable: 'KEY_ALIAS'),
-                            string(credentialsId: '157247d7-583b-453b-a6d3-b1f0c48274c2', variable: 'KEY_PASSWORD')
-                        ]){
-                            buildAndroid(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);
-                        }                    
+                         buildAndroid(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);                   
                     }
+                }
+            }
+
+            stage('Sign'){
+                steps {
+                    withCredentials([
+                        string(credentialsId: '440307a6-0399-45e3-9782-928731eb8932', variable: 'KEYSTORE_BASE64'),
+                        string(credentialsId: 'f24f173a-1c11-438a-8929-1f2611bf0875', variable: 'KEYSTORE_PASSWORD'),                            
+                        string(credentialsId: '9b5fc393-b883-4aad-ba05-ff255a81fc26', variable: 'KEY_ALIAS'),
+                        string(credentialsId: '157247d7-583b-453b-a6d3-b1f0c48274c2', variable: 'KEY_PASSWORD')
+                    ]){
+                        signApp(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);
+                    }                    
                 }
             }
 
