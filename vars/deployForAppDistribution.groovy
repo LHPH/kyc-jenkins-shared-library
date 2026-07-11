@@ -7,6 +7,7 @@ def call(Map config = [:]){
     if(config.branch == 'master'){
         buildType = 'Release'
     }
+    buildType = 'Release'
 
     def buildPath = "${env.WORKSPACE}/app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
     if(format == 'aab'){

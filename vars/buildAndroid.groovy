@@ -7,6 +7,7 @@ def call(Map config = [:]){
     if(config.branch == 'master'){
         buildType = 'Release'
     }
+    buildType= 'Release'
 
     def buildFormat = 'assemble';
     def buildPath = "app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
