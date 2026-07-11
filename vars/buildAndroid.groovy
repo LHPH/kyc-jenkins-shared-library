@@ -25,7 +25,17 @@ def call(Map config = [:]){
 
         if(format == 'apk'){
 
+            def scriptName = 'signApk.sh';
+            loadLinuxScript(name: "${scriptName}")
+
             sh """
+                FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
+                printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
+
+                ./${scriptName} \$FILE_PATH \FILE_PATH \$WORKSPACE/release-key.jks
+            """
+
+            /*sh """
 
                 FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
                 printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
@@ -41,7 +51,7 @@ def call(Map config = [:]){
                 \$ANDROID_HOME/build-tools/35.0.0/apksigner verify \
                 --verbose \
                 \$FILE_PATH
-            """
+            """*/
 
         }
 
