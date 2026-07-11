@@ -23,19 +23,49 @@ def call(Map config = [:]){
 
     if(buildType == 'Release'){
 
-        sh """
+        if(format == 'apk'){
 
-            FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
-            printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
+            sh """
 
-            \$ANDROID_HOME/build-tools/35.0.0/apksigner sign \
-            --ks \$WORKSPACE/release-key.jks \
-            --ks-pass pass:${KEYSTORE_PASSWORD} \
-            --ks-key-alias ${KEY_ALIAS} \
-            --key-pass pass:${KEY_PASSWORD} \
-            --out \$FILE_PATH \
-            \$FILE_PATH
-        """
+                FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
+                printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
+
+                \$ANDROID_HOME/build-tools/35.0.0/apksigner sign \
+                --ks \$WORKSPACE/release-key.jks \
+                --ks-pass pass:${KEYSTORE_PASSWORD} \
+                --ks-key-alias ${KEY_ALIAS} \
+                --key-pass pass:${KEY_PASSWORD} \
+                --out \$FILE_PATH \
+                \$FILE_PATH
+
+                \$ANDROID_HOME/build-tools/35.0.0/apksigner verify \
+                --verbose \
+                \$FILE_PATH
+            """
+
+        }
+
+        if(format == 'aab'){
+
+            sh """
+
+                FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
+                printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
+
+                jarsigner -verbose \
+                -sigalg SHA256withRSA \
+                -digestalg SHA-256 \
+                -keystore \$WORKSPACE/release-key.jks \
+                -storepass ${KEYSTORE_PASSWORD} \
+                -key-pass ${KEY_PASSWORD} \
+                \$FILE_PATH \
+                ${KEY_ALIAS}
+
+                jarsigner -verify \
+                -verbose \
+                \$FILE_PATH
+            """
+        }
     }
 
     sh """
