@@ -26,15 +26,13 @@ def call(Map config = [:]){
         sh """
 
             FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
-            printf '%s' 'dGVzdA==' | base64 -d > test-base.txt
             printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
-            ls -lta \$WORKSPACE/release-key.jks
 
             \$ANDROID_HOME/build-tools/35.0.0/apksigner sign \
             --ks \$WORKSPACE/release-key.jks \
-            --ks-pass pass: \$KEYSTORE_PASSWORD \
-            --ks-key-alias \$KEY_ALIAS \
-            --key-pass pass: \$KEY_PASSWORD \
+            --ks-pass pass: ${KEYSTORE_PASSWORD} \
+            --ks-key-alias ${KEY_ALIAS} \
+            --key-pass pass: ${KEY_PASSWORD} \
             --out \$FILE_PATH \
             \$FILE_PATH
         """
