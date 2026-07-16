@@ -7,7 +7,7 @@ def call(AppPipelineContext ctx){
     def flavourVersion = ctx.flavour
     def buildType = ctx.getBuildType().capitalize()
     def buildFormat = ctx.getBuildFormat()
-    def targetPath = ctx.getTargetPath()
+    def targetPath = ctx.getTargetPath("${env.WORKSPACE}")
 
     if(buildType == 'Release'){
 

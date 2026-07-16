@@ -16,13 +16,13 @@ class AppPipelineContext implements Serializable{
         return format == 'aab' ? 'bundle' : 'assemble';
     }
 
-    public String getTargetPath(){
+    public String getTargetPath(String workspacePath){
 
         if(format == 'aab'){
-            return "${env.WORKSPACE}/app/build/outputs/bundle/${flavour.uncapitalize()}${getBuildType().capitalize()}/"
+            return "${workspacePath}/app/build/outputs/bundle/${flavour.uncapitalize()}${getBuildType().capitalize()}/"
         }
         else if(format == 'apk'){
-            return "${env.WORKSPACE}/app/build/outputs/apk/${flavour.uncapitalize()}/${getBuildType()}/"
+            return "${workspacePath}/app/build/outputs/apk/${flavour.uncapitalize()}/${getBuildType()}/"
         }
         throw UnsupportedOperationException('Unsupported operation');
     }
