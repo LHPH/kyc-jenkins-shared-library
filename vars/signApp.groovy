@@ -1,20 +1,13 @@
-def call(Map config = [:]){
+import com.kyc.jenkins.dto.AppPipelineContext
 
-    def flavourVersion = "${config.flavour}" 
-    def buildType = 'Debug'
-    def format = config.format.uncapitalize();
+def call(AppPipelineContext ctx){
 
-    if(config.branch == 'master'){
-        buildType = 'Release'
-    }
-    buildType= 'Release'
-
-    def buildFormat = 'assemble';
-    def buildPath = "app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
-    if(format == 'aab'){
-        buildFormat = 'bundle';
-        buildPath = "app/build/outputs/${buildFormat}/${flavourVersion.uncapitalize()}${buildType}/"
-    }
+    def project = ctx.project
+    def format = ctx.format
+    def flavourVersion = ctx.flavour
+    def buildType = ctx.getBuildType().capitalize()
+    def buildFormat = ctx.getBuildFormat()
+    def targetPath = ctx.getTargetPath()
 
     if(buildType == 'Release'){
 
@@ -24,7 +17,7 @@ def call(Map config = [:]){
             loadLinuxScript(name: "${scriptName}")
 
             sh """
-                FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
+                FILE_PATH=\$(find ${targetPath} -maxdepth 1 -type f -name "${project}-*.${format}")
                 printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
 
                 ./${scriptName} \$FILE_PATH \$FILE_PATH \$WORKSPACE/release-key.jks
@@ -37,7 +30,7 @@ def call(Map config = [:]){
             loadLinuxScript(name: "${scriptName}")
 
             sh """
-                FILE_PATH=\$(find ${buildPath} -maxdepth 1 -type f -name "${config.project}-*.${format}")
+                FILE_PATH=\$(find ${targetPath} -maxdepth 1 -type f -name "${project}-*.${format}")
                 printf '%s' '${KEYSTORE_BASE64}' | base64 -d > \$WORKSPACE/release-key.jks
 
                 ./${scriptName} \$FILE_PATH \$WORKSPACE/release-key.jks

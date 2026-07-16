@@ -1,19 +1,13 @@
-def call(Map config = [:]){
+import com.kyc.jenkins.dto.AppPipelineContext
 
-    def flavourVersion = "${config.flavour}" 
-    def buildType = 'Debug'
-    def format = config.format.uncapitalize();
+def call(AppPipelineContext ctx){
 
-    if(config.branch == 'master'){
-        buildType = 'Release'
-    }
-    buildType = 'Release'
-
-    def buildPath = "${env.WORKSPACE}/app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
-    if(format == 'aab'){
-        buildFormat = 'bundle';
-        buildPath = "${env.WORKSPACE}/app/build/outputs/${buildFormat}/${flavourVersion.uncapitalize()}${buildType}/"
-    }
+    def project = ctx.project
+    def format = ctx.format
+    def flavourVersion = ctx.flavour
+    def buildType = ctx.getBuildType().capitalize()
+    def buildFormat = ctx.getBuildFormat()
+    def targetPath = ctx.getTargetPath()
     
     //FOR AAB ARTIFACTS REQUIRES FIREBASE ACCOUNT TO LINKED TO PLAYSTORE ACCOUNT
     /*sh """

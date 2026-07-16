@@ -1,24 +1,15 @@
-def call(Map config = [:]){
+import com.kyc.jenkins.dto.AppPipelineContext
+
+def call(AppPipelineContext ctx){
     
-    def flavourVersion = "${config.flavour}" 
-    def buildType = 'Debug'
-    def format = config.format.uncapitalize();
-
-    if(config.branch == 'master'){
-        buildType = 'Release'
-    }
-    buildType= 'Release'
-
-    def buildFormat = 'assemble';
-    def buildPath = "app/build/outputs/${format}/${flavourVersion.uncapitalize()}/${buildType.uncapitalize()}/"
-    if(format == 'aab'){
-        buildFormat = 'bundle';
-        buildPath = "app/build/outputs/${buildFormat}/${flavourVersion.uncapitalize()}${buildType}/"
-    }
+    def flavourVersion = ctx.flavour
+    def buildType = ctx.getBuildType().capitalize()
+    def buildFormat = ctx.getBuildFormat()
+    def targetPath = ctx.getTargetPath()
 
     sh """
         gradle -v
         gradle ${buildFormat}${flavourVersion}${buildType} --info --stacktrace
-        ls -lta ${buildPath}
+        ls -lta ${targetPath}
     """
 }

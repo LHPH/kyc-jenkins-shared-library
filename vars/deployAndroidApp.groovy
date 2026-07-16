@@ -1,3 +1,7 @@
+import com.kyc.jenkins.dto.AppPipelineContext
+
+def appPipelineDataContext = new AppPipelineContext()
+
 def call(Map config = [:]){
 
     pipeline {
@@ -20,11 +24,22 @@ def call(Map config = [:]){
                     checkoutProject(project: config.project, branch: "${params.BRANCH}", credentials: "${config.credentials}");
                 }
             }
+
+            stage('Setup'){
+                steps{
+                    script{
+                        appPipelineDataContext.project = config.project
+                        appPipelineDataContext.format = params.FORMAT
+                        appPipelineDataContext.flavour = params.FLAVOUR
+                        appPipelineDataContext.branch = params.BRANCH
+                    }
+                }
+            }
             
             stage('Build'){
                 steps {
                     withEnv(["JENKINS_BUILD_NUMBER=${env.BUILD_NUMBER}"]){
-                         buildAndroid(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);                   
+                         buildAndroid(appPipelineDataContext);                   
                     }
                 }
             }
@@ -37,7 +52,7 @@ def call(Map config = [:]){
                         string(credentialsId: '9b5fc393-b883-4aad-ba05-ff255a81fc26', variable: 'KEY_ALIAS'),
                         string(credentialsId: '157247d7-583b-453b-a6d3-b1f0c48274c2', variable: 'KEY_PASSWORD')
                     ]){
-                        signApp(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);
+                        signApp(appPipelineDataContext);
                     }                    
                 }
             }
@@ -45,7 +60,7 @@ def call(Map config = [:]){
             stage('Deploy App Distribution'){
                 steps{
                     withCredentials([file(credentialsId: config.firebaseCredentials,variable: 'GOOGLE_APPLICATION_CREDENTIALS')]){
-                        deployForAppDistribution(project: config.project, flavour: params.FLAVOUR, branch: params.BRANCH, format: params.FORMAT);
+                        deployForAppDistribution(appPipelineDataContext);
                     }
                 }
             }
