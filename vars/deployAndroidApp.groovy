@@ -1,8 +1,9 @@
 import com.kyc.jenkins.dto.AppPipelineContext
 
-def appPipelineDataContext = new AppPipelineContext()
 
 def call(Map config = [:]){
+
+    def appPipelineDataContext = new AppPipelineContext()
 
     pipeline {
         agent any
