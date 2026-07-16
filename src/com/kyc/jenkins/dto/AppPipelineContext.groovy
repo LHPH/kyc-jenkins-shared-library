@@ -9,7 +9,7 @@ class AppPipelineContext implements Serializable{
 
     public String getBuildType(){
 
-        return branch == 'master' ? 'release' : 'debug';
+        return 'release';//branch == 'master' ? 'release' : 'debug';
     }
 
     public String getBuildFormat(){
