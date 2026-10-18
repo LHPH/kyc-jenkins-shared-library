@@ -37,10 +37,14 @@ def call(Map config = [:]){
                 }
             }
         }
-        /*post { 
+        post { 
             always { 
-                deleteDir()
+                script{
+                    if(params.deleteDir == true){
+                        deleteDir()
+                    }
+                }
             }
-        }*/
+        }
     }
 }
