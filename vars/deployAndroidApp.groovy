@@ -16,6 +16,9 @@ def call(Map config = [:]){
             gitParameter branchFilter: 'origin.*/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'PT_BRANCH'
             choice(name: 'FLAVOUR', choices: ['Actual', 'Mock'])
             choice(name: 'FORMAT', choices: ['apk', 'aab'])
+            booleanParam(name: "deleteDir",
+                description: "Delete Dir?",
+                defaultValue: true)
         }
         
         stages {
@@ -68,7 +71,11 @@ def call(Map config = [:]){
         }
         post { 
             always { 
-                deleteDir();
+                script{
+                    if(params.deleteDir == true){
+                        deleteDir()
+                    }
+                }
             }
         }
     }

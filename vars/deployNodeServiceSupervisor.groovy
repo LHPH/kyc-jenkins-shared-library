@@ -12,6 +12,9 @@ def call(Map config = [:]){
             booleanParam(name: "CACHE",
                 description: "Use cache? (for node_modules)",
                 defaultValue: !'master'.equals(params.BRANCH))
+            booleanParam(name: "deleteDir",
+                description: "Delete Dir?",
+                defaultValue: true)
         }
         
         stages {
@@ -36,7 +39,11 @@ def call(Map config = [:]){
         }
         post { 
             always { 
-                deleteDir();
+                script{
+                    if(params.deleteDir == true){
+                        deleteDir()
+                    }
+                }
             }
         }
     }
