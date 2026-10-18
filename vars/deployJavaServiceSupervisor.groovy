@@ -39,8 +39,10 @@ def call(Map config = [:]){
         }
         post { 
             always { 
-                if(params.deleteDir == true){
-                    deleteDir();
+                steps{
+                    if(params.deleteDir == true){
+                        deleteDir();
+                    }
                 }
             }
         }
