@@ -83,6 +83,7 @@ deployNodeProject(){
 stopSupervisor(){
 
   project=$1
+  echo "Stopping supervisor if valid status"
   status=$(supervisorctl status $project:* 2>&1)
   echo "Current status is $status"
   if [[ $status == *RUNNING* ]]; then
